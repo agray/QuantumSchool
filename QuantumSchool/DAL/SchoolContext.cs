@@ -13,6 +13,15 @@ namespace QuantumSchool.DAL {
         public DbSet<Student> Students { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder) {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+            modelBuilder.Entity<Course>()
+                .HasMany(c => c.Students)
+                .WithMany(s => s.Courses)
+                .Map(t => t.MapLeftKey("CourseID")
+                           .MapRightKey("StudentID")
+                           .ToTable("StudentCourse"));
+            modelBuilder.Entity<Student>().MapToStoredProcedures();
+            modelBuilder.Entity<Course>().MapToStoredProcedures();
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

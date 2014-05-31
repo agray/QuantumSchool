@@ -1,7 +1,7 @@
 ﻿using QuantumSchool.DAL;
-using System.Web.Mvc;
-using System.Linq;
 using QuantumSchool.Models;
+using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace QuantumSchool.Controllers {
     public class HomeController : Controller {
@@ -12,7 +12,6 @@ namespace QuantumSchool.Controllers {
 
         public ActionResult About() {
             ViewBag.Message = "Your application description page.";
-
             return View();
         }
 
@@ -25,6 +24,11 @@ namespace QuantumSchool.Controllers {
         public string GetCourseName(string courseId) {
             Course course = repository.GetCourseById(int.Parse(courseId));
             return course.Name;
+        }
+
+        public JsonResult GetStudentsByCourseId(string courseId) {
+            IEnumerable<Student> students = repository.GetStudentsByCourseId(int.Parse(courseId));
+            return Json(students, JsonRequestBehavior.AllowGet);
         }
     }
 }

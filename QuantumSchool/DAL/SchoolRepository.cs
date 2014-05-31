@@ -15,5 +15,10 @@ namespace QuantumSchool.DAL {
         public Course GetCourseById(int courseId) {
             return db.Courses.Find(courseId);;
         }
+
+        public List<Student> GetStudentsByCourseId(int courseId) {
+            Course course = GetCourseById(courseId);
+            return course.Students.ToList();
+        }
     }
 }

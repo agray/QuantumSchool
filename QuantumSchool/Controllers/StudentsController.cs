@@ -1,5 +1,6 @@
 ﻿using QuantumSchool.DAL;
 using QuantumSchool.Models;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -44,6 +45,15 @@ namespace QuantumSchool.Controllers {
             }
 
             return View(student);
+        }
+
+        private void AddOrUpdateCourses(Student student, IEnumerable<Course> courses) {
+            if(courses != null) {
+                foreach(Course course in courses) {
+                    db.Courses.Attach(course);
+                    student.Courses.Add(course);
+                }
+            }
         }
 
         // GET: Students/Edit/5

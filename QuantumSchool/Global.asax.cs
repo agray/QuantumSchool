@@ -14,7 +14,9 @@ namespace QuantumSchool {
             
             //This ensures the initialisation is executed.
             SchoolContext context = new SchoolContext();
+            //context.Database.Delete();
             context.Database.Initialize(true);
+            //context.Database.Create();
         }
     }
 }
