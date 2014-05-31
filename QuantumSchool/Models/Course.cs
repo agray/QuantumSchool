@@ -6,7 +6,7 @@ namespace QuantumSchool.Models {
     public class Course {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required]
-        public int ClassID { get; set; }
+        public int CourseID { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
