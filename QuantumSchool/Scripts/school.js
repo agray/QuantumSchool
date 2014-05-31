@@ -8,3 +8,7 @@
         $("#course_header").html(name);
     });
 }
+
+function AddCourse() {
+    window.location.href = "/Courses/Create";
+}
