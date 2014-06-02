@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuantumSchool", "QuantumSchool\QuantumSchool.csproj", "{AB11961E-12AB-4C5A-8A1C-70873CA0F331}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuantumSchool.Tests", "..\..\..\Users\andrewg\Documents\Visual Studio 2013\Projects\QuantumSchool\QuantumSchool.Tests\QuantumSchool.Tests.csproj", "{EC4B6B7A-1943-4DF1-82A9-987D4FA1D383}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuantumSchool.Tests", "QuantumSchool.Tests\QuantumSchool.Tests.csproj", "{EC4B6B7A-1943-4DF1-82A9-987D4FA1D383}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuantumSchool.Core", "QuantumSchool.Core\QuantumSchool.Core.csproj", "{378F1F17-5C0B-4BE1-90A8-089D34848A66}"
 EndProject

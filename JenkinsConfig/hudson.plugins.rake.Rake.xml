@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<hudson.plugins.rake.Rake_-RakeDescriptor plugin="rake@1.8.0">
+  <installations>
+    <hudson.plugins.rake.RubyInstallation>
+      <name>Ruby 1.9.3</name>
+      <path>C:\Ruby193</path>
+    </hudson.plugins.rake.RubyInstallation>
+  </installations>
+  <rvm>
+    <path></path>
+  </rvm>
+</hudson.plugins.rake.Rake_-RakeDescriptor>

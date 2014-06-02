@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description>An SPA implementation of Quantum School.</description>
+  <logRotator class="hudson.tasks.LogRotator">
+    <daysToKeep>-1</daysToKeep>
+    <numToKeep>5</numToKeep>
+    <artifactDaysToKeep>-1</artifactDaysToKeep>
+    <artifactNumToKeep>-1</artifactNumToKeep>
+  </logRotator>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.2.1">
+    <configVersion>2</configVersion>
+    <userRemoteConfigs>
+      <hudson.plugins.git.UserRemoteConfig>
+        <url>https://github.com/agray/QuantumSchool.git</url>
+        <credentialsId>17366486-11d3-4884-8e0b-6258d81bf414</credentialsId>
+      </hudson.plugins.git.UserRemoteConfig>
+    </userRemoteConfigs>
+    <branches>
+      <hudson.plugins.git.BranchSpec>
+        <name>*/master</name>
+      </hudson.plugins.git.BranchSpec>
+    </branches>
+    <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+    <browser class="hudson.plugins.git.browser.GithubWeb">
+      <url>http://github.com/agray/QuantumSchool</url>
+    </browser>
+    <submoduleCfg class="list"/>
+    <extensions/>
+  </scm>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.plugins.msbuild.MsBuildBuilder plugin="msbuild@1.21">
+      <msBuildName>MSBuild</msBuildName>
+      <msBuildFile>QuantumSchool.sln</msBuildFile>
+      <cmdLineArgs>/t:Clean /p:Configuration=Release</cmdLineArgs>
+      <buildVariablesAsProperties>false</buildVariablesAsProperties>
+      <continueOnBuildFailure>false</continueOnBuildFailure>
+      <unstableIfWarnings>false</unstableIfWarnings>
+    </hudson.plugins.msbuild.MsBuildBuilder>
+    <hudson.plugins.msbuild.MsBuildBuilder plugin="msbuild@1.21">
+      <msBuildName>MSBuild</msBuildName>
+      <msBuildFile>QuantumSchool.sln</msBuildFile>
+      <cmdLineArgs>/t:Rebuild /p:Configuration=Release</cmdLineArgs>
+      <buildVariablesAsProperties>false</buildVariablesAsProperties>
+      <continueOnBuildFailure>false</continueOnBuildFailure>
+      <unstableIfWarnings>false</unstableIfWarnings>
+    </hudson.plugins.msbuild.MsBuildBuilder>
+    <org.jenkinsci.plugins.MsTestBuilder plugin="mstestrunner@1.0.1">
+      <msTestName>MSTest</msTestName>
+      <testFiles>QuantumSchool.Tests\bin\Release\QuantumSchool.Tests.dll</testFiles>
+      <categories></categories>
+      <resultFile>testresults.trx</resultFile>
+      <cmdLineArgs></cmdLineArgs>
+    </org.jenkinsci.plugins.MsTestBuilder>
+  </builders>
+  <publishers>
+    <hudson.plugins.mstest.MSTestPublisher plugin="mstest@0.7">
+      <testResultsFile>testresults.trx</testResultsFile>
+    </hudson.plugins.mstest.MSTestPublisher>
+  </publishers>
+  <buildWrappers/>
+</project>

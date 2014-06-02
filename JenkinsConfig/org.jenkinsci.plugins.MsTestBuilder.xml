@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<org.jenkinsci.plugins.MsTestBuilder_-DescriptorImpl plugin="mstestrunner@1.0.1">
+  <installations>
+    <org.jenkinsci.plugins.MsTestInstallation>
+      <name>MSTest</name>
+      <home>C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE</home>
+      <properties/>
+      <omitNoIsolation>false</omitNoIsolation>
+    </org.jenkinsci.plugins.MsTestInstallation>
+  </installations>
+</org.jenkinsci.plugins.MsTestBuilder_-DescriptorImpl>
