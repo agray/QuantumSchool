@@ -21,11 +21,11 @@
     * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
     * THE SOFTWARE.
 *@
-@model QuantumSchool.Models.Course
+@model QuantumSchool.Core.Models.Course
 
-@{ ViewBag.Title = "Create Course"; }
+@{ ViewBag.Title = "Add Course"; }
 
-<h2>Create Course</h2>    
+<h2>Add</h2>    
     
 @using (Html.BeginForm()) 
 {
@@ -61,12 +61,12 @@
     
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Add" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
     
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index", "Home")
 </div>

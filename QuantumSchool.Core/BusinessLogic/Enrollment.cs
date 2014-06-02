@@ -23,26 +23,24 @@
  * THE SOFTWARE.
  */
 #endregion
+using QuantumSchool.Core.Models;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using QuantumSchool.Core.DAL;
 
-namespace QuantumSchool.Models {
-    public class Course {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required]
-        public int CourseID { get; set; }
-        [Required]
-        public string Name { get; set; }
-        [Required]
-        public string Location { get; set; }
-        [Required]
-        public string Teacher { get; set; }
-        [Required]
-        public virtual ICollection<Student> Students { get; set; }
-
-        public Course() {
-            Students = new HashSet<Student>();
+namespace QuantumSchool.Core.BusinessLogic {
+    public class Enrollment {
+        private static SchoolRepository repository = new SchoolRepository();
+        public static bool EnrollmentApproved(string lastName, string selectedCourse) {
+            List<Course> allCourses = repository.GetCourses();
+            foreach(Course course in allCourses) {
+                ICollection<Student> students = course.Students;
+                foreach(Student student in students) {
+                    if(student.LastName.Equals(lastName)) {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
     }
 }

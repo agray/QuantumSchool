@@ -23,8 +23,8 @@
  * THE SOFTWARE.
  */
 #endregion
-using QuantumSchool.DAL;
-using QuantumSchool.Models;
+using QuantumSchool.Core.DAL;
+using QuantumSchool.Core.Models;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -53,7 +53,8 @@ namespace QuantumSchool.Controllers {
         public JsonResult GetStudentsByCourseId(string courseId) {
             Course course = repository.GetCourseById(int.Parse(courseId));
             var students = course.Students.Select(x => new { StudentId = x.StudentID,
-                                                             Name = x.Name,
+                                                             FirstName = x.FirstName,
+                                                             LastName = x.LastName,
                                                              Age = x.Age,
                                                              GPA = x.GPA
                                                             });

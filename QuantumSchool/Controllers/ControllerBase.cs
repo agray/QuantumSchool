@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 #endregion
-using QuantumSchool.DAL;
+using QuantumSchool.Core.DAL;
 using System.Web.Mvc;
 
 namespace QuantumSchool.Controllers {

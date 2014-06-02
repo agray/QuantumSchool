@@ -7,6 +7,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuantumSchool", "QuantumSch
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuantumSchool.Tests", "..\..\..\Users\andrewg\Documents\Visual Studio 2013\Projects\QuantumSchool\QuantumSchool.Tests\QuantumSchool.Tests.csproj", "{EC4B6B7A-1943-4DF1-82A9-987D4FA1D383}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuantumSchool.Core", "QuantumSchool.Core\QuantumSchool.Core.csproj", "{378F1F17-5C0B-4BE1-90A8-089D34848A66}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{708B1941-C25D-4A58-A43D-F8616F6B8EFD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Interface", "Interface", "{E846298C-AB3E-4B52-B71D-4807E0F0680C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{07E36A33-9B69-408B-A3CF-2CD230707995}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,8 +29,17 @@ Global
 		{EC4B6B7A-1943-4DF1-82A9-987D4FA1D383}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC4B6B7A-1943-4DF1-82A9-987D4FA1D383}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC4B6B7A-1943-4DF1-82A9-987D4FA1D383}.Release|Any CPU.Build.0 = Release|Any CPU
+		{378F1F17-5C0B-4BE1-90A8-089D34848A66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{378F1F17-5C0B-4BE1-90A8-089D34848A66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{378F1F17-5C0B-4BE1-90A8-089D34848A66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{378F1F17-5C0B-4BE1-90A8-089D34848A66}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AB11961E-12AB-4C5A-8A1C-70873CA0F331} = {E846298C-AB3E-4B52-B71D-4807E0F0680C}
+		{EC4B6B7A-1943-4DF1-82A9-987D4FA1D383} = {07E36A33-9B69-408B-A3CF-2CD230707995}
+		{378F1F17-5C0B-4BE1-90A8-089D34848A66} = {708B1941-C25D-4A58-A43D-F8616F6B8EFD}
 	EndGlobalSection
 EndGlobal

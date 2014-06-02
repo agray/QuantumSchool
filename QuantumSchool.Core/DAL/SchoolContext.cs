@@ -23,11 +23,11 @@
  * THE SOFTWARE.
  */
 #endregion
-using QuantumSchool.Models;
+using QuantumSchool.Core.Models;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 
-namespace QuantumSchool.DAL {
+namespace QuantumSchool.Core.DAL {
     public class SchoolContext : DbContext {
         public SchoolContext()
             : base("SchoolContext") {

@@ -49,14 +49,14 @@ function AddStudent(courseId) {
     window.location.href = "/Students/Add/" + courseId;
 }
 
-
 function process_students(students, courseId) {
     if (students != undefined && students.length != 0) {
         var html = "<table class=\"table\">"
-        html += "<tr><th>Name</th><th>Age</th><th>GPA</th><th></th></tr>";
+        html += "<tr><th>First Name</th><th>Last Name</th><th>Age</th><th>GPA</th><th></th></tr>";
         for (i = 0; i < students.length; i++) {
             var student = students[i];
-            html += "<tr><td>" + student.Name + "</td>";
+            html += "<tr><td>" + student.FirstName + "</td>";
+            html += "<td>" + student.LastName + "</td>";
             html += "<td>" + student.Age + "</td>";
             html += "<td>" + student.GPA + "</td>";
             html += "<td><a href='/Students/Edit/" + student.StudentId + "'>Edit</a> | <a href='/Students/Delete/" + student.StudentId + "'>Delete</a></td>";

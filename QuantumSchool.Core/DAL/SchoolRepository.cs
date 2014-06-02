@@ -23,12 +23,12 @@
  * THE SOFTWARE.
  */
 #endregion
-using QuantumSchool.Models;
+using QuantumSchool.Core.Models;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 
-namespace QuantumSchool.DAL {
+namespace QuantumSchool.Core.DAL {
     public class SchoolRepository {
         private SchoolContext db = new SchoolContext();
 
@@ -88,15 +88,6 @@ namespace QuantumSchool.DAL {
             db.Students.Remove(student);
             db.SaveChanges();
         }
-
-        //public JsonResult GetStudentsByCourseId(int courseId) {
-        //    Course course = GetCourseById(courseId);
-        //    var students = course.Students.Select(x => new { StudentID = x.StudentID,
-        //                                                     Name = x.Name,
-        //                                                     Age = x.Age,
-        //                                                     GPA = x.GPA });
-        //    return Json(students, JsonRequestBehavior.AllowGet);
-        //}
 
         public void Dispose() {
             //Standard scaffolding method.

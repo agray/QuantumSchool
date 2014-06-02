@@ -27,22 +27,26 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace QuantumSchool.Models {
-    public class Student {
+namespace QuantumSchool.Core.Models {
+    public class Course {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required]
-        public int StudentID { get; set; }
+        public int CourseID { get; set; }
         [Required]
+        [RegularExpression("^[a-zA-Z ]*$")]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 2)]
         public string Name { get; set; }
         [Required]
-        public int Age { get; set; }
+        public string Location { get; set; }
         [Required]
-        public decimal GPA { get; set; }
+        [RegularExpression("^[a-zA-Z ]*$")]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 2)]
+        public string Teacher { get; set; }
         [Required]
-        public virtual ICollection<Course> Courses { get; set; }
+        public virtual ICollection<Student> Students { get; set; }
 
-        public Student() {
-            Courses = new HashSet<Course>();
+        public Course() {
+            Students = new HashSet<Student>();
         }
     }
 }

@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 #endregion
-using QuantumSchool.Models;
+using QuantumSchool.Core.Models;
 using System.Net;
 using System.Web.Mvc;
 
