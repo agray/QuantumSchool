@@ -1,8 +1,7 @@
 ﻿using QuantumSchool.DAL;
 using QuantumSchool.Models;
-using System.Collections.Generic;
-using System.Web.Mvc;
 using System.Linq;
+using System.Web.Mvc;
 
 namespace QuantumSchool.Controllers {
     public class HomeController : Controller {

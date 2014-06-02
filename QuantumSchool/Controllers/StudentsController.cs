@@ -1,5 +1,4 @@
-﻿using QuantumSchool.DAL;
-using QuantumSchool.Models;
+﻿using QuantumSchool.Models;
 using QuantumSchool.ViewModels;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -8,40 +7,23 @@ using System.Net;
 using System.Web.Mvc;
 
 namespace QuantumSchool.Controllers {
-    public class StudentsController : Controller {
-        private SchoolContext db = new SchoolContext();
-
-        // GET: Students
-        public ActionResult Index() {
-            return View(db.Students.ToList());
-        }
-
-        // GET: Students/Details/5
-        public ActionResult Details(int? id) {
-            if(id == null) {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Student student = db.Students.Find(id);
-            if(student == null) {
-                return HttpNotFound();
-            }
-            return View(student);
-        }
-
-        // GET: Students/Create
-        public ActionResult Create() {
+    public class StudentsController : ControllerBase {
+        // GET: Students/Add/1
+        public ActionResult Add(int? id) {
             Student student = new Student();
+            Course course = db.Courses.Find(id);
             student.Courses = new List<Course>();
+            student.Courses.Add(course);
             PopulateAssignedCourseData(student);
             return View();
         }
 
-        // POST: Students/Create
+        // POST: Students/Add
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "StudentID,Name,Age,GPA")] Student student, string[] selectedCourses) {
+        public ActionResult Add([Bind(Include = "StudentID,Name,Age,GPA")] Student student, string[] selectedCourses) {
             if(selectedCourses != null) {
                 student.Courses = new List<Course>();
                 foreach(var course in selectedCourses) {
@@ -52,7 +34,7 @@ namespace QuantumSchool.Controllers {
             if(ModelState.IsValid) {
                 db.Students.Add(student);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
             PopulateAssignedCourseData(student);
             return View(student);
@@ -77,25 +59,7 @@ namespace QuantumSchool.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "StudentID,Name,Age,GPA")] Student student, string[] selectedCourses) {
-            //if(TryUpdateModel(student, "", new string[] { "Name", "Age", "GPA" })) {
-            //    try {
-            //        UpdateStudentCourses(selectedCourses, student);
-            //        db.Students.Attach(student);
-            //        db.Entry(student).State = EntityState.Modified;
-            //        db.SaveChanges();
-            //        return RedirectToAction("Index");
-            //    } catch(RetryLimitExceededException /* dex */) {
-            //        //Log the error (uncomment dex variable name and add a line here to write a log.
-            //        ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
-            //    }
-            //}
-            //PopulateAssignedCourseData(student);
-            //return View(student);
-
-            //UpdateStudentCourses(selectedCourses, student);
-
             if(ModelState.IsValid) {
-                //db.Students.Attach(student);
                 db.Entry(student).State = EntityState.Deleted;
                 db.SaveChanges();
                 if(selectedCourses != null) {
@@ -107,20 +71,13 @@ namespace QuantumSchool.Controllers {
                 }
                 db.Students.Add(student);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
             PopulateAssignedCourseData(student);
             return View(student);
         }
 
         private void UpdateStudentCourses(string[] selectedCourses, Student studentToUpdate) {
-            //studentToUpdate.Courses = new List<Course>();
-            //if(selectedCourses != null) {
-            //    foreach(var course in selectedCourses) {
-            //        var courseToAdd = db.Courses.Find(int.Parse(course));
-            //        studentToUpdate.Courses.Add(courseToAdd);
-            //    }
-            //}
             HashSet<string> selectedCoursesHS = new HashSet<string>(selectedCourses);
             HashSet<int> studentCourses = new HashSet<int>(studentToUpdate.Courses.Select(c => c.CourseID));
             foreach(var course in db.Courses) {
@@ -137,10 +94,10 @@ namespace QuantumSchool.Controllers {
         }
 
         private void PopulateAssignedCourseData(Student student) {
-            var allCourses = db.Courses;
-            var studentCourses = new HashSet<int>(student.Courses.Select(c => c.CourseID));
-            var viewModel = new List<AssignedCourseData>();
-            foreach(var course in allCourses) {
+            DbSet<Course> allCourses = db.Courses;
+            HashSet<int> studentCourses = new HashSet<int>(student.Courses.Select(c => c.CourseID));
+            List<AssignedCourseData> viewModel = new List<AssignedCourseData>();
+            foreach(Course course in allCourses) {
                 viewModel.Add(new AssignedCourseData {
                     CourseID = course.CourseID,
                     Title = course.Name,
@@ -169,14 +126,7 @@ namespace QuantumSchool.Controllers {
             Student student = db.Students.Find(id);
             db.Students.Remove(student);
             db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing) {
-            if(disposing) {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
+            return RedirectToAction("Index", "Home");
         }
     }
 }

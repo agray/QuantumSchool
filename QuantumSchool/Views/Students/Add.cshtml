@@ -25,7 +25,7 @@
 
 @{ ViewBag.Title = "Create Student"; }
 
-<h2>Create Student</h2>
+<h2>Add Student</h2>
     
 @using (Html.BeginForm()) 
 {
@@ -92,7 +92,7 @@
 }
     
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index", "Home")
 </div>
 
 @section Scripts {

@@ -7,25 +7,8 @@ using System.Net;
 using System.Web.Mvc;
 
 namespace QuantumSchool.Controllers {
-    public class CoursesController : Controller {
-        private SchoolContext db = new SchoolContext();
-
-        // GET: Courses
-        public ActionResult Index() {
-            return View(db.Courses.ToList());
-        }
-
-        // GET: Courses/Details/5
-        public ActionResult Details(int? id) {
-            if(id == null) {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Course course = db.Courses.Find(id);
-            if(course == null) {
-                return HttpNotFound();
-            }
-            return View(course);
-        }
+    public class CoursesController : ControllerBase {
+        
 
         // GET: Courses/Create
         public ActionResult Create() {
@@ -42,7 +25,7 @@ namespace QuantumSchool.Controllers {
                 course.Students = new List<Student>();
                 db.Courses.Add(course);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
 
             return View(course);
@@ -69,7 +52,7 @@ namespace QuantumSchool.Controllers {
             if(ModelState.IsValid) {
                 db.Entry(course).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
             return View(course);
         }
@@ -93,14 +76,7 @@ namespace QuantumSchool.Controllers {
             Course course = db.Courses.Find(id);
             db.Courses.Remove(course);
             db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing) {
-            if(disposing) {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
+            return RedirectToAction("Index", "Home");
         }
     }
 }

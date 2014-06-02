@@ -6,45 +6,44 @@
         $("#course_header").html(name);
     });
 
-    //$.ajax({
-    //    type: "POST",
-    //    url: '/Home/GetStudentsByCourseId',
-    //    data: {courseId: row.id},
-    //    dataType: 'json',
-    //    success: function (students) {
-    //        alert("SUCCESS:  " + students);
-    //    },
-    //    error: function (x) {
-    //        alert("ERROR:  " + x.responseText);
-    //    }
-    //});
-
-    $.getJSON('/Home/GetStudentsByCourseId', { courseId: row.id }, function (students) {
-        debugger;
-        process_students(students);
-    });
+    $.getJSON('/Home/GetStudentsByCourseId',
+              { courseId: row.id },
+              (function(courseId) {
+                  return function (students) {
+                            debugger;
+                            process_students(students, courseId);
+                         };
+              }(row.id)
+              ));
 }
 
 function AddCourse() {
     window.location.href = "/Courses/Create";
 }
 
-function process_students(students) {
+function AddStudent(courseId) {
     debugger;
-    if (students != undefined) {
-        var tableHtml = "<table class=\"table\">"
-        tableHtml += "<tr><th>Name</th><th>Age</th><th>GPA</th><th></th></tr>";
+    window.location.href = "/Students/Add/" + courseId;
+}
+
+
+function process_students(students, courseId) {
+    if (students != undefined && students.length != 0) {
+        var html = "<table class=\"table\">"
+        html += "<tr><th>Name</th><th>Age</th><th>GPA</th><th></th></tr>";
         for (i = 0; i < students.length; i++) {
             var student = students[i];
-            tableHtml += "<tr><td>" + student.Name + "</td>";
-            tableHtml += "<td>" + student.Age + "</td>";
-            tableHtml += "<td>" + student.GPA + "</td>";
-            tableHtml += "<td><a href='/Students/Edit/" + student.StudentId + "'>Edit</a> | <a href='/Student/Delete/" + student.StudentId + "'>Delete</a></td>";
-            tableHtml += "</tr>";
+            html += "<tr><td>" + student.Name + "</td>";
+            html += "<td>" + student.Age + "</td>";
+            html += "<td>" + student.GPA + "</td>";
+            html += "<td><a href='/Students/Edit/" + student.StudentId + "'>Edit</a> | <a href='/Students/Delete/" + student.StudentId + "'>Delete</a></td>";
+            html += "</tr>";
         }
-        tableHtml += "</table>"
-        $("#students_div").html(tableHtml);
+        html += "</table>";
     } else {
-        $("#students_div").html("There are no students enrolled in this course.");
+        html = ("There are no students enrolled in this course.<br/>");
     }
+    html += "<button id=\"add_student\" onclick=\"AddStudent(" + courseId + ")\">Add</button>";
+    $("#students_div").html(html);
+    debugger;
 }
