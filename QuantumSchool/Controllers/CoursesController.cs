@@ -1,5 +1,6 @@
 ﻿using QuantumSchool.DAL;
 using QuantumSchool.Models;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -38,6 +39,7 @@ namespace QuantumSchool.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "CourseID,Name,Location,Teacher")] Course course) {
             if(ModelState.IsValid) {
+                course.Students = new List<Student>();
                 db.Courses.Add(course);
                 db.SaveChanges();
                 return RedirectToAction("Index");

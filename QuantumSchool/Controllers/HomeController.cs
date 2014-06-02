@@ -2,6 +2,7 @@
 using QuantumSchool.Models;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using System.Linq;
 
 namespace QuantumSchool.Controllers {
     public class HomeController : Controller {
@@ -17,7 +18,6 @@ namespace QuantumSchool.Controllers {
 
         public ActionResult Contact() {
             ViewBag.Message = "Your contact page.";
-
             return View();
         }
 
@@ -27,7 +27,12 @@ namespace QuantumSchool.Controllers {
         }
 
         public JsonResult GetStudentsByCourseId(string courseId) {
-            IEnumerable<Student> students = repository.GetStudentsByCourseId(int.Parse(courseId));
+            Course course = repository.GetCourseById(int.Parse(courseId));
+            var students = course.Students.Select(x => new { StudentId = x.StudentID,
+                                                             Name = x.Name,
+                                                             Age = x.Age,
+                                                             GPA = x.GPA
+                                                            });
             return Json(students, JsonRequestBehavior.AllowGet);
         }
     }

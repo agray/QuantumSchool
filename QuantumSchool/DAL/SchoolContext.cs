@@ -18,7 +18,7 @@ namespace QuantumSchool.DAL {
                 .WithMany(s => s.Courses)
                 .Map(t => t.MapLeftKey("CourseID")
                            .MapRightKey("StudentID")
-                           .ToTable("StudentCourse"));
+                           .ToTable("CourseStudent"));
             modelBuilder.Entity<Student>().MapToStoredProcedures();
             modelBuilder.Entity<Course>().MapToStoredProcedures();
             base.OnModelCreating(modelBuilder);
