@@ -24,11 +24,9 @@
  */
 #endregion
 using QuantumSchool.Models;
-using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 
 namespace QuantumSchool.DAL {
     public class SchoolRepository {
@@ -42,6 +40,55 @@ namespace QuantumSchool.DAL {
             return db.Courses.Find(courseId);;
         }
 
+        public void CreateCourse(Course course) {
+            course.Students = new List<Student>();
+            db.Courses.Add(course);
+            db.SaveChanges();
+        }
+
+        public Course FindCourse(int? id) {
+            return db.Courses.Find(id);
+        }
+
+        public void EditCourse(Course course) {
+            db.Entry(course).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+
+        public void DeleteCourse(int id) {
+            Course course = FindCourse(id);
+            db.Courses.Remove(course);
+            db.SaveChanges();
+        }
+
+        public Student AddCourseToStudent(int? id) {
+            Student student = new Student();
+            Course course = FindCourse(id);
+            student.Courses = new List<Course>();
+            student.Courses.Add(course);
+            return student;
+        }
+
+        public void AddStudent(Student student) {
+            db.Students.Add(student);
+            db.SaveChanges();
+        }
+
+        public Student FindStudent(int? id) {
+            return db.Students.Find(id);
+        }
+
+        public void DeleteStudent(Student student) {
+            db.Entry(student).State = EntityState.Deleted;
+            db.SaveChanges();
+        }
+
+        public void DeleteStudent(int id) {
+            Student student = db.Students.Find(id);
+            db.Students.Remove(student);
+            db.SaveChanges();
+        }
+
         //public JsonResult GetStudentsByCourseId(int courseId) {
         //    Course course = GetCourseById(courseId);
         //    var students = course.Students.Select(x => new { StudentID = x.StudentID,
@@ -50,5 +97,10 @@ namespace QuantumSchool.DAL {
         //                                                     GPA = x.GPA });
         //    return Json(students, JsonRequestBehavior.AllowGet);
         //}
+
+        public void Dispose() {
+            //Standard scaffolding method.
+            db.Dispose();
+        }
     }
 }

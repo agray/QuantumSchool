@@ -26,7 +26,6 @@
 using QuantumSchool.Models;
 using QuantumSchool.ViewModels;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -35,10 +34,7 @@ namespace QuantumSchool.Controllers {
     public class StudentsController : ControllerBase {
         // GET: Students/Add/1
         public ActionResult Add(int? id) {
-            Student student = new Student();
-            Course course = db.Courses.Find(id);
-            student.Courses = new List<Course>();
-            student.Courses.Add(course);
+            Student student = repository.AddCourseToStudent(id);
             PopulateAssignedCourseData(student);
             return View();
         }
@@ -51,14 +47,13 @@ namespace QuantumSchool.Controllers {
         public ActionResult Add([Bind(Include = "StudentID,Name,Age,GPA")] Student student, string[] selectedCourses) {
             if(selectedCourses != null) {
                 student.Courses = new List<Course>();
-                foreach(var course in selectedCourses) {
-                    var courseToAdd = db.Courses.Find(int.Parse(course));
+                foreach(string course in selectedCourses) {
+                    Course courseToAdd = repository.FindCourse(int.Parse(course));
                     student.Courses.Add(courseToAdd);
                 }
             }
             if(ModelState.IsValid) {
-                db.Students.Add(student);
-                db.SaveChanges();
+                repository.AddStudent(student);
                 return RedirectToAction("Index", "Home");
             }
             PopulateAssignedCourseData(student);
@@ -70,7 +65,7 @@ namespace QuantumSchool.Controllers {
             if(id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = db.Students.Find(id);
+            Student student = repository.FindStudent(id);
             PopulateAssignedCourseData(student);
             if(student == null) {
                 return HttpNotFound();
@@ -85,17 +80,15 @@ namespace QuantumSchool.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "StudentID,Name,Age,GPA")] Student student, string[] selectedCourses) {
             if(ModelState.IsValid) {
-                db.Entry(student).State = EntityState.Deleted;
-                db.SaveChanges();
+                repository.DeleteStudent(student);
                 if(selectedCourses != null) {
                     student.Courses = new List<Course>();
                     foreach(var course in selectedCourses) {
-                        var courseToAdd = db.Courses.Find(int.Parse(course));
+                        var courseToAdd = repository.FindCourse(int.Parse(course));
                         student.Courses.Add(courseToAdd);
                     }
                 }
-                db.Students.Add(student);
-                db.SaveChanges();
+                repository.AddStudent(student);
                 return RedirectToAction("Index", "Home");
             }
             PopulateAssignedCourseData(student);
@@ -105,7 +98,7 @@ namespace QuantumSchool.Controllers {
         private void UpdateStudentCourses(string[] selectedCourses, Student studentToUpdate) {
             HashSet<string> selectedCoursesHS = new HashSet<string>(selectedCourses);
             HashSet<int> studentCourses = new HashSet<int>(studentToUpdate.Courses.Select(c => c.CourseID));
-            foreach(var course in db.Courses) {
+            foreach(Course course in repository.GetCourses()) {
                 if(selectedCoursesHS.Contains(course.CourseID.ToString())) {
                     if(!studentCourses.Contains(course.CourseID)) {
                         studentToUpdate.Courses.Add(course);
@@ -119,10 +112,9 @@ namespace QuantumSchool.Controllers {
         }
 
         private void PopulateAssignedCourseData(Student student) {
-            DbSet<Course> allCourses = db.Courses;
             HashSet<int> studentCourses = new HashSet<int>(student.Courses.Select(c => c.CourseID));
             List<AssignedCourseData> viewModel = new List<AssignedCourseData>();
-            foreach(Course course in allCourses) {
+            foreach(Course course in repository.GetCourses()) {
                 viewModel.Add(new AssignedCourseData {
                     CourseID = course.CourseID,
                     Title = course.Name,
@@ -137,7 +129,7 @@ namespace QuantumSchool.Controllers {
             if(id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = db.Students.Find(id);
+            Student student = repository.FindStudent(id);
             if(student == null) {
                 return HttpNotFound();
             }
@@ -148,9 +140,7 @@ namespace QuantumSchool.Controllers {
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id) {
-            Student student = db.Students.Find(id);
-            db.Students.Remove(student);
-            db.SaveChanges();
+            repository.DeleteStudent(id);
             return RedirectToAction("Index", "Home");
         }
     }

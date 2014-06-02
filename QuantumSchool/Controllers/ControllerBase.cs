@@ -28,10 +28,10 @@ using System.Web.Mvc;
 
 namespace QuantumSchool.Controllers {
     public class ControllerBase : Controller {
-        protected SchoolContext db = new SchoolContext();
+        protected SchoolRepository repository = new SchoolRepository();
         protected override void Dispose(bool disposing) {
             if(disposing) {
-                db.Dispose();
+                repository.Dispose();
             }
             base.Dispose(disposing);
         }

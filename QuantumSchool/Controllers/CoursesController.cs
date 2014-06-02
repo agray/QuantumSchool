@@ -23,18 +23,12 @@
  * THE SOFTWARE.
  */
 #endregion
-using QuantumSchool.DAL;
 using QuantumSchool.Models;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 
 namespace QuantumSchool.Controllers {
     public class CoursesController : ControllerBase {
-        
-
         // GET: Courses/Create
         public ActionResult Create() {
             return View();
@@ -47,12 +41,9 @@ namespace QuantumSchool.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "CourseID,Name,Location,Teacher")] Course course) {
             if(ModelState.IsValid) {
-                course.Students = new List<Student>();
-                db.Courses.Add(course);
-                db.SaveChanges();
+                repository.CreateCourse(course);
                 return RedirectToAction("Index", "Home");
             }
-
             return View(course);
         }
 
@@ -61,7 +52,7 @@ namespace QuantumSchool.Controllers {
             if(id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Course course = db.Courses.Find(id);
+            Course course = repository.FindCourse(id);
             if(course == null) {
                 return HttpNotFound();
             }
@@ -75,8 +66,7 @@ namespace QuantumSchool.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "CourseID,Name,Location,Teacher")] Course course) {
             if(ModelState.IsValid) {
-                db.Entry(course).State = EntityState.Modified;
-                db.SaveChanges();
+                repository.EditCourse(course);
                 return RedirectToAction("Index", "Home");
             }
             return View(course);
@@ -87,7 +77,7 @@ namespace QuantumSchool.Controllers {
             if(id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Course course = db.Courses.Find(id);
+            Course course = repository.FindCourse(id);
             if(course == null) {
                 return HttpNotFound();
             }
@@ -98,9 +88,7 @@ namespace QuantumSchool.Controllers {
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id) {
-            Course course = db.Courses.Find(id);
-            db.Courses.Remove(course);
-            db.SaveChanges();
+            repository.DeleteCourse(id);
             return RedirectToAction("Index", "Home");
         }
     }
