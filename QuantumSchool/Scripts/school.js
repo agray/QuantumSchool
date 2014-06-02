@@ -52,10 +52,13 @@ function AddStudent(courseId) {
 function process_students(students, courseId) {
     if (students != undefined && students.length != 0) {
         var html = "<table class=\"table\">"
-        html += "<tr><th>First Name</th><th>Last Name</th><th>Age</th><th>GPA</th><th></th></tr>";
+        html += "<tr><th>&nbsp;</th><th>First Name</th><th>Last Name</th><th>Age</th><th>GPA</th><th></th></tr>";
         for (i = 0; i < students.length; i++) {
             var student = students[i];
-            html += "<tr><td>" + student.FirstName + "</td>";
+            html += student.GPA >= 3.2 ? "<tr><td width=\"30px\"><img src=\"Images/dux.jpg\" width=\"30px\"></td>" : "<tr><td>&nbsp;</td>";
+            debugger;
+            html += "<td>" + student.FirstName + "</td>";
+            debugger;
             html += "<td>" + student.LastName + "</td>";
             html += "<td>" + student.Age + "</td>";
             html += "<td>" + student.GPA + "</td>";
