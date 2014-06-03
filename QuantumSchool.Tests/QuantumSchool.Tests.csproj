@@ -6,7 +6,7 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{EC4B6B7A-1943-4DF1-82A9-987D4FA1D383}</ProjectGuid>
+    <ProjectGuid>{E5F50F18-5C1B-43EE-85A0-352E81E3B410}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>QuantumSchool.Tests</RootNamespace>
