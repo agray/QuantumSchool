@@ -31,20 +31,20 @@ using System.Web.Mvc;
 namespace QuantumSchool.Tests.Controllers {
     [TestClass]
     public class HomeControllerTest {
-        //[AssemblyInitialize]
-        //public static void AssemblyInit(TestContext context) {
-        //    //use this database file name (in current bin folder)
-        //    var testDatabase = new TestDatabase("TestDatabase");
-        //    testDatabase.CreateDatabase();
-        //    //globally inject a connection string with this name
-        //    testDatabase.InitConnectionString("ApplicationContext");
-        //}
-
-        [ClassInitialize]
-        public static void SetUp(TestContext context) {
-            Console.WriteLine("Class Initialised!");
-            AppDomain.CurrentDomain.SetData("DataDirectory", context.TestDeploymentDir);
+        [AssemblyInitialize]
+        public static void AssemblyInit(TestContext context) {
+            //use this database file name (in current bin folder)
+            var testDatabase = new TestDatabase("TestDatabase");
+            testDatabase.CreateDatabase();
+            //globally inject a connection string with this name
+            testDatabase.InitConnectionString("SchoolTestContext");
         }
+
+        //[TestInitialize]
+        //public static void SetUp(TestContext context) {
+        //    Console.WriteLine("Test Initialised!");
+        //    AppDomain.CurrentDomain.SetData("DataDirectory", context.TestDeploymentDir);
+        //}
 
         [TestMethod]
         public void Index() {

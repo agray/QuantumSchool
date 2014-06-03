@@ -5,6 +5,7 @@ using System.IO;
 using System.Reflection;
 
 namespace QuantumSchool.Tests {
+    [System.Runtime.InteropServices.GuidAttribute("E69498D4-D596-45FA-8200-573F6FE70015")]
     public class TestDatabase {
         private const string LocalDbMaster =
             @"Data Source=(LocalDB)\v11.0;Initial Catalog=master;Integrated Security=True";
@@ -19,24 +20,22 @@ namespace QuantumSchool.Tests {
         }
 
         public void CreateDatabase() {
-            var isDetached = DetachDatabase();
+            bool isDetached = DetachDatabase();
             if(!isDetached) return; //reuse database
-            var fileName = CleanupDatabase();
+            string fileName = CleanupDatabase();
 
-            using(var connection = new SqlConnection(LocalDbMaster)) {
+            using(SqlConnection connection = new SqlConnection(LocalDbMaster)) {
                 connection.Open();
-                var cmd = connection.CreateCommand();
-                cmd.CommandText = string.Format("CREATE DATABASE {0} ON (NAME = N'{0}', FILENAME = '{1}.mdf')",
-                    _databaseName,
-                    fileName);
+                SqlCommand cmd = connection.CreateCommand();
+                cmd.CommandText = string.Format("CREATE DATABASE {0} ON (NAME = N'{0}', FILENAME = '{1}.mdf')", _databaseName, fileName);
                 cmd.ExecuteNonQuery();
             }
         }
 
         public void InitConnectionString(string connectionStringName) {
-            var connectionString = string.Format(TestConnectionString, _databaseName, DatabaseFilePath());
-            var config = ConfigurationManager.OpenExeConfiguration(Assembly.GetCallingAssembly().Location);
-            var settings = config.ConnectionStrings.ConnectionStrings[connectionStringName];
+            string connectionString = string.Format(TestConnectionString, _databaseName, DatabaseFilePath());
+            Configuration config = ConfigurationManager.OpenExeConfiguration(Assembly.GetCallingAssembly().Location);
+            ConnectionStringSettings settings = config.ConnectionStrings.ConnectionStrings[connectionStringName];
             if(settings == null) {
                 settings = new ConnectionStringSettings(connectionStringName, connectionString, "System.Data.SqlClient");
                 config.ConnectionStrings.ConnectionStrings.Add(settings);
@@ -47,20 +46,23 @@ namespace QuantumSchool.Tests {
         }
 
         private string CleanupDatabase() {
-            var fileName = DatabaseFilePath();
+            string fileName = DatabaseFilePath();
             try {
-                if(File.Exists(fileName + ".mdf")) File.Delete(fileName + ".mdf");
-                if(File.Exists(fileName + "_log.ldf")) File.Delete(fileName + "_log.ldf");
+                if(File.Exists(fileName + ".mdf")) { 
+                    File.Delete(fileName + ".mdf"); 
+                }
+                if(File.Exists(fileName + "_log.ldf")) { 
+                    File.Delete(fileName + "_log.ldf"); 
+                }
             } catch {
                 Console.WriteLine("Could not delete the files (open in Visual Studio?)");
             }
             return fileName;
         }
         private bool DetachDatabase() {
-
             using(var connection = new SqlConnection(LocalDbMaster)) {
                 connection.Open();
-                var cmd = connection.CreateCommand();
+                SqlCommand cmd = connection.CreateCommand();
                 cmd.CommandText = String.Format("exec sp_detach_db '{0}'", _databaseName);
                 try {
                     cmd.ExecuteNonQuery();
@@ -72,9 +74,7 @@ namespace QuantumSchool.Tests {
             }
         }
         private string DatabaseFilePath() {
-            return Path.Combine(
-                Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-                _databaseName);
+            return Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), _databaseName);
         }
     }
 }
