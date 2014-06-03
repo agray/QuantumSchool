@@ -34,7 +34,7 @@ namespace QuantumSchool.Tests.Controllers {
         [AssemblyInitialize]
         public static void AssemblyInit(TestContext context) {
             //use this database file name (in current bin folder)
-            var testDatabase = new TestDatabase("TestDatabase");
+            var testDatabase = new TestDatabase("SchoolTest1");
             testDatabase.CreateDatabase();
             //globally inject a connection string with this name
             testDatabase.InitConnectionString("SchoolTestContext");
