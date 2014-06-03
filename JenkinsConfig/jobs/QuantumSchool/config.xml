@@ -53,13 +53,10 @@
       <continueOnBuildFailure>false</continueOnBuildFailure>
       <unstableIfWarnings>false</unstableIfWarnings>
     </hudson.plugins.msbuild.MsBuildBuilder>
-    <org.jenkinsci.plugins.MsTestBuilder plugin="mstestrunner@1.0.1">
-      <msTestName>MSTest</msTestName>
-      <testFiles>QuantumSchool.Tests\bin\Release\QuantumSchool.Tests.dll</testFiles>
-      <categories></categories>
-      <resultFile>testresults.trx</resultFile>
-      <cmdLineArgs></cmdLineArgs>
-    </org.jenkinsci.plugins.MsTestBuilder>
+    <hudson.tasks.BatchFile>
+      <command>del testresults.trx
+&quot;C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\MSTest.exe&quot; /testcontainer:QuantumSchool.Tests\bin\Release/QuantumSchool.Tests.dll /resultsfile:testresults.trx</command>
+    </hudson.tasks.BatchFile>
   </builders>
   <publishers>
     <hudson.plugins.mstest.MSTestPublisher plugin="mstest@0.7">

@@ -3,7 +3,7 @@
   <plugins>
     <entry>
       <string>msbuild</string>
-      <string>1.21</string>
+      <string>1.22</string>
     </entry>
     <entry>
       <string>filesystem_scm</string>
@@ -83,7 +83,7 @@
     </entry>
     <entry>
       <string>credentials</string>
-      <string>1.12</string>
+      <string>1.13</string>
     </entry>
     <entry>
       <string>ansicolor</string>
@@ -115,7 +115,7 @@
     </entry>
     <entry>
       <string>github-api</string>
-      <string>1.44</string>
+      <string>1.53</string>
     </entry>
     <entry>
       <string>pam-auth</string>
@@ -123,7 +123,7 @@
     </entry>
     <entry>
       <string>Hudson core</string>
-      <string>1.564</string>
+      <string>1.566</string>
     </entry>
     <entry>
       <string>git-client</string>
