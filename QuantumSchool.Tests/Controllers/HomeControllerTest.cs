@@ -33,46 +33,35 @@ namespace QuantumSchool.Tests.Controllers {
     public class HomeControllerTest {
         [AssemblyInitialize]
         public static void AssemblyInit(TestContext context) {
-            //use this database file name (in current bin folder)
-            var testDatabase = new TestDatabase("SchoolTest1");
+            var testDatabase = new TestDatabase("QuantumSchoolTest");
             testDatabase.CreateDatabase();
-            //globally inject a connection string with this name
             testDatabase.InitConnectionString("SchoolTestContext");
         }
 
-        //[TestInitialize]
-        //public static void SetUp(TestContext context) {
-        //    Console.WriteLine("Test Initialised!");
-        //    AppDomain.CurrentDomain.SetData("DataDirectory", context.TestDeploymentDir);
-        //}
-
         [TestMethod]
         public void Index() {
-            // Arrange
             HomeController controller = new HomeController();
-            // Act
             ViewResult result = controller.Index() as ViewResult;
-            // Assert
             Assert.IsNotNull(result);
         }
 
         [TestMethod]
-        public void About() {
-            // Arrange
+        public void GPAHighlight() {
             HomeController controller = new HomeController();
-            // Act
+            ViewResult result = controller.Index() as ViewResult;
+        }
+
+        [TestMethod]
+        public void About() {
+            HomeController controller = new HomeController();
             ViewResult result = controller.About() as ViewResult;
-            // Assert
             Assert.AreEqual("Quantum School", result.ViewBag.Message);
         }
 
         [TestMethod]
         public void Contact() {
-            // Arrange
             HomeController controller = new HomeController();
-            // Act
             ViewResult result = controller.Contact() as ViewResult;
-            // Assert
             Assert.IsNotNull(result);
         }
     }
