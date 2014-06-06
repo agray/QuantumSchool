@@ -29,6 +29,10 @@ using System.Web.Mvc;
 
 namespace QuantumSchool.Controllers {
     public class CoursesController : ControllerBase {
+        public ActionResult Index() {
+            return RedirectToAction("Index", "Home");
+        }
+
         // GET: Courses/Create
         public ActionResult Create() {
             return View();

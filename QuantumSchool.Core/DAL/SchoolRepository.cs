@@ -74,6 +74,11 @@ namespace QuantumSchool.Core.DAL {
             db.SaveChanges();
         }
 
+        public void EditStudent(Student student) {
+            db.Entry(student).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+
         public Student FindStudent(int? id) {
             return db.Students.Find(id);
         }

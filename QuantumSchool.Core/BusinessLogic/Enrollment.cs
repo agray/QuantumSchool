@@ -30,7 +30,11 @@ using QuantumSchool.Core.DAL;
 namespace QuantumSchool.Core.BusinessLogic {
     public class Enrollment {
         private static SchoolRepository repository = new SchoolRepository();
-        public static bool EnrollmentApproved(string lastName, string selectedCourse) {
+        public static bool EnrollmentApproved(string lastName) {
+            //Requirement described by client as a "silly business rule" that surnames
+            //must be unique across classes (and within the same class) i.e. if there
+            //is a student with the surname Black, we cannot add another student with
+            //the surname Black to this or any other class.
             List<Course> allCourses = repository.GetCourses();
             foreach(Course course in allCourses) {
                 ICollection<Student> students = course.Students;

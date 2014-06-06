@@ -33,8 +33,15 @@ using System.Web.Mvc;
 
 namespace QuantumSchool.Controllers {
     public class StudentsController : ControllerBase {
+        public ActionResult Index() {
+            return RedirectToAction("Index", "Home");
+        }
+
         // GET: Students/Add/1
         public ActionResult Add(int? id) {
+            if(id == null) {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
            Student student = repository.AddCourseToStudent(id);
             PopulateAssignedCourseData(student);
             return View();
@@ -46,7 +53,7 @@ namespace QuantumSchool.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Add([Bind(Include = "StudentID,FirstName,LastName,Age,GPA")] Student student, string selectedCourse) {
-            if(Enrollment.EnrollmentApproved(student.LastName, selectedCourse)) {
+            if(Enrollment.EnrollmentApproved(student.LastName)) {
                 if(selectedCourse != null) {
                     student.Courses = new List<Course>();
                     Course courseToAdd = repository.FindCourse(int.Parse(selectedCourse));
@@ -79,21 +86,16 @@ namespace QuantumSchool.Controllers {
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "StudentID,FirstName,LastName,Age,GPA")] Student student, string[] selectedCourses) {
-            if(ModelState.IsValid) {
-                repository.DeleteStudent(student);
-                if(selectedCourses != null) {
-                    student.Courses = new List<Course>();
-                    foreach(var course in selectedCourses) {
-                        var courseToAdd = repository.FindCourse(int.Parse(course));
-                        student.Courses.Add(courseToAdd);
-                    }
-                }
-                repository.AddStudent(student);
+        public ActionResult Edit([Bind(Include = "StudentID,FirstName,LastName,Age,GPA")] Student student, string selectedCourse) {
+            if(Enrollment.EnrollmentApproved(student.LastName) &&
+               selectedCourse != null &&
+               ModelState.IsValid) {
+                repository.EditStudent(student);
                 return RedirectToAction("Index", "Home");
+            } else {
+                //Post Redirect Get Pattern
+                return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
             }
-            PopulateAssignedCourseData(student);
-            return View(student);
         }
 
         private void UpdateStudentCourses(string[] selectedCourses, Student studentToUpdate) {
